@@ -77,8 +77,8 @@ if title_input:
         if approve_button:
             if checkbox_statusses.count(True) == 1:
                 index_num = detail_statusses[checkbox_statusses.index(True)]
-                st.write(index_num)
-                webbrowser.open(test_link, new=0)
+                # st.write(index_num)
+                webbrowser.open_new(test_link)
             elif checkbox_statusses.count(True) == 0:
                 st.warning('작품을 선택해 주세요!')
             else:
