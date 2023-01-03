@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import webbrowser
+from bokeh.models.widgets import Div
 
 # st.set_page_config(layout="wide")
 
@@ -72,13 +73,17 @@ if title_input:
 
         beta1, beta2, beta3 = st.columns([1, 1, 1])
         with beta2:
-            approve_button = st.form_submit_button("정식연재 승격 여부 확인하기", test_link)
+            approve_button = st.form_submit_button("정식연재 승격 여부 확인하기")
             
         if approve_button:
             if checkbox_statusses.count(True) == 1:
                 index_num = detail_statusses[checkbox_statusses.index(True)]
                 # st.write(index_num)
-                webbrowser.open_new(test_link)
+                # webbrowser.open_new(test_link)
+                js = "window.location.href = 'https://j-jae0-final-project-ais7-webtoon-tvyirp.streamlit.app/result'"  # Current tab
+                html = '<img src onerror="{}">'.format(js)
+                div = Div(text=html)
+                st.bokeh_chart(div)
             elif checkbox_statusses.count(True) == 0:
                 st.warning('작품을 선택해 주세요!')
             else:
