@@ -1,0 +1,7 @@
+pandas
+numpy
+streamlit
+plotly
+seaborn
+matplotlib
+koreanize_matplotlib
