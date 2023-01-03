@@ -5,3 +5,4 @@ plotly
 seaborn
 matplotlib
 koreanize_matplotlib
+python==3.9.0
