@@ -7,8 +7,15 @@ with open( "/app/final-project-ais7/style.css" ) as css:
     st.markdown(f'<style>{css.read()}</style>' , unsafe_allow_html= True)
     
 "# 작전명: 띵작을 찾아서"
+@st.cache
+def webtoon_info(URL):
+    df = pd.read_csv(URL)
+    return df
 
-df_link = pd.read_csv("/app/final-project-ais7/data/웹툰_섬네일_링크.csv")
+URL = "data/웹툰_섬네일_링크.csv"
+df_link = webtoon_info(URL)
+
+# df_link = pd.read_csv("/app/final-project-ais7/data/웹툰_섬네일_링크.csv")
 # df_link.loc[df_link["title"]=="뱀파이어의 연금술", ["id", "title", "thumbnail"]]
 
 if "visibility" not in st.session_state:
