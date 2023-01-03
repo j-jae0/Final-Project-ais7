@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 
 # 폰트 적용 
-with open( "/app/final-project-ais7/style.css" ) as css:
+with open( "style.css" ) as css:
     st.markdown(f'<style>{css.read()}</style>' , unsafe_allow_html= True)
     
 "# 작전명: 띵작을 찾아서"
