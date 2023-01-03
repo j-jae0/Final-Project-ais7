@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
-import koreanize_matplotlib
+import webbrowser
+
+"# 작전명: 띵작을 찾아서"
