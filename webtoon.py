@@ -72,8 +72,8 @@ if title_input:
 
         beta1, beta2, beta3 = st.columns([1, 1, 1])
         with beta2:
-            approve_button = st.form_submit_button(label=f"정식연재 승격 여부 확인하기")
-
+            approve_button = st.form_submit_button("정식연재 승격 여부 확인하기", test_link)
+            
         if approve_button:
             if checkbox_statusses.count(True) == 1:
                 index_num = detail_statusses[checkbox_statusses.index(True)]
