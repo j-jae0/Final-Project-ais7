@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import seaborn as sns
-from PIL import Image
 import webbrowser
 
 # st.set_page_config(layout="wide")
