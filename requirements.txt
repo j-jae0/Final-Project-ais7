@@ -5,3 +5,6 @@ plotly
 seaborn
 matplotlib
 koreanize_matplotlib
+st_click_detector
+PIL
+webbrowser
