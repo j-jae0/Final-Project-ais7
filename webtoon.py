@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import seaborn as sns
-from st_click_detector import click_detector
 from PIL import Image
 import webbrowser
 
