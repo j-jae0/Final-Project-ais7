@@ -226,9 +226,11 @@ if st.session_state.page2:
                         
                 with tab1:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
-                    st.subheader("👉 5회차에서의 긍정적인 댓글의 수")
-                    #st.write()
-                    fig1 = px.bar(
+                    option5 = st.selectbox("지표를 선택해 주세요!", ("긍정적인 댓글의 수", "조회 수", "총 별점 수"))
+                    st.session_state.option = option5
+                    if st.session_state.option == "긍정적인 댓글의 수":
+                        st.subheader("✔️ 5회차에서의 긍정적인 댓글의 수")
+                        fig1 = px.bar(
                                     df_positive_5[df_positive_5["회차"]==5],
                                     x="작품",
                                     y="positive",
@@ -237,15 +239,15 @@ if st.session_state.page2:
                                     color="작품",
                                     labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"}
                                     )
-                    fig1.update_layout({"showlegend":False, 
+                        fig1.update_layout({"showlegend":False, 
                                             "plot_bgcolor":"rgba(0, 0, 0, 0)", 
                                             "paper_bgcolor":"rgba(0, 0, 0, 0)"})
-                    fig1.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')                        
-                    fig1.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                    st.plotly_chart(fig1, theme="streamlit", use_container_width=True)
+                        fig1.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')                        
+                        fig1.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                        st.plotly_chart(fig1, theme="streamlit", use_container_width=True)
                                 
-                    st.subheader("👉 1~5회차에서의 긍정적인 댓글의 수")
-                    fig2 = px.line(
+                        st.subheader("✔️ 1~5회차에서의 긍정적인 댓글의 수")
+                        fig2 = px.line(
                                         df_positive_5,
                                         x="회차",
                                         y="positive",
@@ -253,13 +255,13 @@ if st.session_state.page2:
                                         color="작품",
                                         labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
                                         markers=True)
-                    fig2.update_xaxes(title_text="회차")
-                    fig2.update_layout({"showlegend":True, 
+                        fig2.update_xaxes(title_text="회차")
+                        fig2.update_layout({"showlegend":True, 
                                                 "plot_bgcolor":"rgba(0, 0, 0, 0)", 
                                                 "paper_bgcolor":"rgba(0, 0, 0, 0)"})
-                    fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                    fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
+                        fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                        fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                        st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
 
                 with tab2:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
