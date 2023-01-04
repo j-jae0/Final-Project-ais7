@@ -219,10 +219,10 @@ if st.session_state.page2:
                 with tab:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
                     pd1, col1, col2, pd2 = st.columns([1, 1, 1, 1])
-                        with col1:
-                            st.metric(label="5회차 기준", value=f"{st.session_state["per_5"]} %", delta=f"- ")
-                        with col2:
-                            st.metric(label="10회차 기준", value=f"{st.session_state["per_10"]} %", delta=f"{st.session_state.per_10 - st.session_state.per_5} %")
+                    with col1:
+                        st.metric(label="5회차 기준", value=f"{st.session_state["per_5"]} %", delta=f"- ")
+                    with col2:
+                        st.metric(label="10회차 기준", value=f"{st.session_state["per_10"]} %", delta=f"{st.session_state.per_10 - st.session_state.per_5} %")
                         # st.write(f"**조회수**는 ?? 번째 회차에서 가장 높습니다.", unsafe_allow_html=True)
                         # """
                         # - {}에서 ~!의 결과는 n 회차입니다.
