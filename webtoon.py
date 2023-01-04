@@ -223,14 +223,13 @@ if st.session_state.page2:
                         st.metric(label="5회차 기준", value=f"{st.session_state.per_5} %")
                     with col2:
                         st.metric(label="10회차 기준", value=f"{st.session_state.per_10} %", delta=f"{st.session_state.per_10 - st.session_state.per_5} %")
-                        
+                
+
                 with tab1:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
-                    option5 = st.selectbox("지표를 선택해 주세요!", ("긍정적인 댓글의 수", "조회 수", "총 별점 수"))
-                    st.session_state.option = option5
-                    if st.session_state.option == "긍정적인 댓글의 수":
-                        st.subheader("✔️ 5회차에서의 긍정적인 댓글의 수")
-                        fig1 = px.bar(
+                    st.subheader("1️⃣ 긍정적인 댓글의 수")
+                    st.write("<h4>✔️ 5회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
+                    fig1 = px.bar(
                                     df_positive_5[df_positive_5["회차"]==5],
                                     x="작품",
                                     y="positive",
@@ -239,29 +238,52 @@ if st.session_state.page2:
                                     color="작품",
                                     labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"}
                                     )
-                        fig1.update_layout({"showlegend":False, 
+                    fig1.update_layout({"showlegend":False, 
                                             "plot_bgcolor":"rgba(0, 0, 0, 0)", 
                                             "paper_bgcolor":"rgba(0, 0, 0, 0)"})
-                        fig1.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')                        
-                        fig1.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                        st.plotly_chart(fig1, theme="streamlit", use_container_width=True)
-                                
-                        st.subheader("✔️ 1~5회차에서의 긍정적인 댓글의 수")
-                        fig2 = px.line(
-                                        df_positive_5,
-                                        x="회차",
-                                        y="positive",
-                                        color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
-                                        color="작품",
-                                        labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
-                                        markers=True)
-                        fig2.update_xaxes(title_text="회차")
-                        fig2.update_layout({"showlegend":True, 
-                                                "plot_bgcolor":"rgba(0, 0, 0, 0)", 
-                                                "paper_bgcolor":"rgba(0, 0, 0, 0)"})
-                        fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                        fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                        st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
+                    fig1.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')                        
+                    fig1.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig1, theme="streamlit", use_container_width=True)
+                    
+                    def contrac(num1, num2):
+                        if num1 > num2:
+                            return "높아요"
+                        elif num1 == num2:
+                            return "같아요"
+                        else:
+                            return "낮아요"
+
+                    positive_num = df_positive_5[(df_positive_5["회차"]==5)&(df_positive_5["작품"]==f"{st.session_state.title_name}")]["positive"].iloc[0]
+                    positive_mean = df_positive_5[(df_positive_5["회차"]==5)&(df_positive_5["작품"]=="정식연재 성공작")]["positive"].iloc[0]
+                    positive_genre = df_positive_5[(df_positive_5["회차"]==5)&(df_positive_5["작품"]=="동일 전개방식의 정식연재 성공작")]["positive"].iloc[0]
+                    
+                    contrac_mean = contrac(positive_num, positive_mean)
+                    contrac_genre = contrac(positive_num, positive_genre)
+                    
+                    f"""
+                    - 5회차에서 집계된 긍정적인 댓글의 수는 정식연재 성공작보다 **{positive_num - positive_men}**만큼 **{contrac_mean}**!
+                    - 5회차에서 집계된 긍정적인 댓글의 수는 동일 전개방식({st.session_state.genre})의 정식연재 성공작보다 **{positive_num - positive_genre}**만큼 **{contrac_genre}**!
+                    """
+                    
+                    st.write("<h4>✔️ 1~5회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
+                    fig2 = px.line(
+                                    df_positive_5,
+                                    x="회차",
+                                    y="positive",
+                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                    color="작품",
+                                    labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
+                                    markers=True)
+                    fig2.update_xaxes(title_text="회차")
+                    fig2.update_layout({"showlegend":True, 
+                                         "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                          "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                    fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
+                    
+                    
+                     
 
                 with tab2:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
