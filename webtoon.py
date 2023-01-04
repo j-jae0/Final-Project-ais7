@@ -566,7 +566,7 @@ if st.session_state.page2:
                         - {df_analy["부정3"].iloc[0]}
                         """
                     
-                    st.write(f"데이터 수집일(2022-12)을 기점으로, <span style='color:green'>{}</span>", unsafe_allow_html=True)
+                    # st.write(f"데이터 수집일(2022-12)을 기점으로, <span style='color:green'>{}</span>", unsafe_allow_html=True)
                     
                     st.write(" ")
                     
