@@ -15,11 +15,11 @@ with open( "style.css" ) as css:
     st.markdown(f'<style>{css.read()}</style>' , unsafe_allow_html= True)
     
 # 데이터 로드
-thumbnail_url = "https://github.com/j-jae0/Final-Project-ais7/edit/main/data/item_thumbnail.csv"
-final_turn_5_url = "https://github.com/j-jae0/Final-Project-ais7/edit/main/data/final_turn_5_df.csv"
-final_turn_10_url = "https://github.com/j-jae0/Final-Project-ais7/blob/main/data/final_turn_10_df.csv"
-maen_turn_5_url = "https://github.com/j-jae0/Final-Project-ais7/edit/main/data/turn_5_means_df.csv"
-maen_turn_10_url = "https://github.com/j-jae0/Final-Project-ais7/blob/main/data/turn_10_means_df.csv"
+thumbnail_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_10_means_df.csv"
+final_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_5_df.csv"
+final_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_10_df.csv"
+maen_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_5_means_df.csv"
+maen_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_10_means_df.csv"
 
 @st.cache
 def info_data():
