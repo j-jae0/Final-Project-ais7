@@ -187,9 +187,9 @@ if st.session_state.page2:
 
     # 10회차  
     # 정식연재O, 주요지표별 평균값
-    total_positive_mean_df_10 = total_mean_df10("전체", "긍정댓글", "정식연재 성공작")
-    total_unreco_sum_mean_df_10 = total_mean_df10("전체", "비공감", "정식연재 성공작")
-    total_rating_people_mean_df_10 = total_mean_df10("전체", "총별점수", "정식연재 성공작")
+    total_positive_mean_df_10 = total_mean_df10("total_mean", "긍정댓글", "정식연재 성공작")
+    total_unreco_sum_mean_df_10 = total_mean_df10("total_mean", "비공감", "정식연재 성공작")
+    total_rating_people_mean_df_10 = total_mean_df10("total_mean", "총별점수", "정식연재 성공작")
 
     # 정식연재O, 동일 작품전개 주요지표별 평균값
     genre_positive_mean_df_10 = total_mean_df10(st.session_state.genre, "긍정댓글", "동일 전개방식의 정식연재 성공작")
