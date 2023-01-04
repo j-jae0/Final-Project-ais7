@@ -35,8 +35,7 @@ def load_data():
 
 @st.cache
 def turn_10_data():
-    df = pd.read_csv(final_turn_10_url) # 나중에 url 형태로 바꿔줘야 함
-    df = df.fillna(0) 
+    df = pd.read_csv(final_turn_10_url)
     return df 
 
 @st.cache
@@ -46,7 +45,7 @@ def mean_5_data():
 
 @st.cache
 def mean_10_data():
-    df = pd.read_csv(maen_turn_10_url) # 나중에 url 형태로 바꿔줘야 함
+    df = pd.read_csv(maen_turn_10_url)
     return df.fillna(0) 
 
 df_link = info_data()
@@ -79,7 +78,7 @@ if "page2" not in st.session_state:
 webtoon_list = sorted(df_link["title"].tolist())
 placeholder = st.empty()
 with placeholder.container():
-    st.title("작전명: 띵작을 찾아서")
+    st.title("작전명: 띵작을 찾아서👀")
     title_input = st.text_input(label="작품명을 입력해 주세요.", 
                                 key=st.session_state.title_id,
                                 label_visibility="collapsed",
@@ -128,6 +127,7 @@ with placeholder.container():
 # 입력받은 데이터 정보만 가지는 df 생성
 if st.session_state.page2:
     title_id = st.session_state["title_id"]
+    title_name = st.session_state["title_name"]
     df_analy = df[df["id"]==title_id].copy()
     
     st.session_state.per_5 = round(df_analy["5_연재확률"].iloc[0] * 100)
@@ -279,11 +279,14 @@ if st.session_state.page2:
                         st.metric(label="5회차 기준", value=f"{st.session_state.per_5} %")
                     with col2:
                         st.metric(label="10회차 기준", value=f"{st.session_state.per_10} %", delta=f"{st.session_state.per_10 - st.session_state.per_5} %")
-                
+
+                    st.write(" ")
+                    # st.write("<h3></h3>")
 
                 with tab1:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
                     st.subheader("1️⃣ 긍정적인 댓글의 수")
+
                     st.write("<h4>✔️ 5회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
                     fig1 = px.bar(
                                     df_positive_5[df_positive_5["회차"]==5],
@@ -299,7 +302,7 @@ if st.session_state.page2:
                     fig1.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')                        
                     fig1.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig1, theme="streamlit", use_container_width=True)
-                        
+                    
                     st.success(f"""
                                 5회차에서 집계된 긍정적인 댓글의 수는
                                 - 정식연재 성공작보다 약 {round(positive_num - positive_mean)} 만큼 {contrac_mean}!
@@ -307,7 +310,7 @@ if st.session_state.page2:
                                 """)
                         
                     st.write(" ")
-                        
+                    
                     st.write("<h4>✔️ 1~5회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
                     fig2 = px.line(
                                     df_positive_5,
@@ -317,15 +320,23 @@ if st.session_state.page2:
                                     color="작품",
                                     labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
                                     markers=True)
-                    fig2.update_xaxes(title_text="회차")
+                    fig2.update_xaxes(title_text="")
                     fig2.update_layout({"showlegend":True, 
-                                        "plot_bgcolor":"rgba(0, 0, 0, 0)", 
-                                        "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                                            "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                            "paper_bgcolor":"rgba(0, 0, 0, 0)"})
                     fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
+                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True) 
 
-                    st.write(" ")
+                    
+                    max_num = df_positive_5[(df_positive_5["작품"]==title_name)&(df_positive_5["positive"]==df_positive_5["positive"].max())]["회차"].iloc[0]
+                    title_max = df_positive_5[(df_positive_5["회차"]==max_num)&(df_positive_5["작품"]==title_name)]["positive"].iloc[0]
+                    mean_max = df_positive_5[(df_positive_5["회차"]==max_num)&(df_positive_5["작품"]=="정식연재 성공작")]["positive"].iloc[0]
+                    genr_max = df_positive_5[(df_positive_5["회차"]==max_num)&(df_positive_5["작품"]=="동일 전개방식의 정식연재 성공작")]["positive"].iloc[0]
+                    st.write(f"긍정적인 댓글의 수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}개 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}개 차이납니다!", unsafe_allow_html=True)
+
                     
                     st.subheader("2️⃣ 조회수")
                     st.write("<h4>✔️ 1회차에서의 조회수</h4>", unsafe_allow_html=True)
@@ -369,7 +380,13 @@ if st.session_state.page2:
                     fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
                     
-                    st.write(" ")
+                    max_num = df_view_5[(df_view_5["작품"]==title_name)&(df_view_5["view"]==df_view_5["view"].max())]["회차"].iloc[0]
+                    title_max = df_view_5[(df_view_5["회차"]==max_num)&(df_view_5["작품"]==title_name)]["view"].iloc[0]
+                    mean_max = df_view_5[(df_view_5["회차"]==max_num)&(df_view_5["작품"]=="정식연재 성공작")]["view"].iloc[0]
+                    genr_max = df_view_5[(df_view_5["회차"]==max_num)&(df_view_5["작품"]=="동일 전개방식의 정식연재 성공작")]["view"].iloc[0]
+                    st.write(f"조회수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}회 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}회 차이납니다!", unsafe_allow_html=True)
 
                     st.subheader("3️⃣ 총 별점 수")
                     st.text('총 별점 수: 별점 * 별점 투표자')
@@ -414,6 +431,14 @@ if st.session_state.page2:
                     fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
+                    
+                    max_num = df_rating_people_5[(df_rating_people_5["작품"]==title_name)&(df_rating_people_5["rating_people"]==df_rating_people_5["rating_people"].max())]["회차"].iloc[0]
+                    title_max = df_rating_people_5[(df_rating_people_5["회차"]==max_num)&(df_rating_people_5["작품"]==title_name)]["rating_people"].iloc[0]
+                    mean_max = df_rating_people_5[(df_rating_people_5["회차"]==max_num)&(df_rating_people_5["작품"]=="정식연재 성공작")]["rating_people"].iloc[0]
+                    genr_max = df_rating_people_5[(df_rating_people_5["회차"]==max_num)&(df_rating_people_5["작품"]=="동일 전개방식의 정식연재 성공작")]["rating_people"].iloc[0]
+                    st.write(f"총 별점 수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}개 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}개 차이납니다!", unsafe_allow_html=True)
                 
                 # 분석결과2
                 # 10회차 정보 제공
@@ -462,7 +487,13 @@ if st.session_state.page2:
                     fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
                         
-                    st.write(" ")
+                    max_num = df_positive_10[(df_positive_10["작품"]==title_name)&(df_positive_10["긍정댓글"]==df_positive_10["긍정댓글"].max())]["회차"].iloc[0]
+                    title_max = df_positive_10[(df_positive_10["회차"]==max_num)&(df_positive_10["작품"]==title_name)]["긍정댓글"].iloc[0]
+                    mean_max = df_positive_10[(df_positive_10["회차"]==max_num)&(df_positive_10["작품"]=="정식연재 성공작")]["긍정댓글"].iloc[0]
+                    genr_max = df_positive_10[(df_positive_10["회차"]==max_num)&(df_positive_10["작품"]=="동일 전개방식의 정식연재 성공작")]["긍정댓글"].iloc[0]
+                    st.write(f"긍정적인 댓글의 수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}개 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}개 차이납니다!", unsafe_allow_html=True)
                     
                     st.subheader("2️⃣ 총 별점 수")
                     st.text('총 별점 수: 별점 * 별점 투표자')
@@ -507,7 +538,13 @@ if st.session_state.page2:
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)    
                         
                 
-                    st.write(" ")
+                    max_num = df_rating_people_10[(df_rating_people_10["작품"]==title_name)&(df_rating_people_10["총별점수"]==df_rating_people_10["총별점수"].max())]["회차"].iloc[0]
+                    title_max = df_rating_people_10[(df_rating_people_10["회차"]==max_num)&(df_rating_people_10["작품"]==title_name)]["총별점수"].iloc[0]
+                    mean_max = df_rating_people_10[(df_rating_people_10["회차"]==max_num)&(df_rating_people_10["작품"]=="정식연재 성공작")]["총별점수"].iloc[0]
+                    genr_max = df_rating_people_10[(df_rating_people_10["회차"]==max_num)&(df_rating_people_10["작품"]=="동일 전개방식의 정식연재 성공작")]["총별점수"].iloc[0]
+                    st.write(f"총 별점 수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}개 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}개 차이납니다!", unsafe_allow_html=True)
                     
                     st.subheader("3️⃣ 댓글의 총 비공감 수")
                     st.write("<h4>✔️ 5회차에서의 댓글의 총 비공감 수</h4>", unsafe_allow_html=True)
@@ -550,3 +587,180 @@ if st.session_state.page2:
                     fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True) 
+                    
+                    
+                    max_num = df_unreco_sum_10[(df_unreco_sum_10["작품"]==title_name)&(df_unreco_sum_10["비공감"]==df_unreco_sum_10["비공감"].max())]["회차"].iloc[0]
+                    title_max = df_unreco_sum_10[(df_unreco_sum_10["회차"]==max_num)&(df_unreco_sum_10["작품"]==title_name)]["비공감"].iloc[0]
+                    mean_max = df_unreco_sum_10[(df_unreco_sum_10["회차"]==max_num)&(df_unreco_sum_10["작품"]=="정식연재 성공작")]["비공감"].iloc[0]
+                    genr_max = df_unreco_sum_10[(df_unreco_sum_10["회차"]==max_num)&(df_unreco_sum_10["작품"]=="동일 전개방식의 정식연재 성공작")]["비공감"].iloc[0]
+                    st.write(f"댓글 속 비공감의 수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}개 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}개 차이납니다!", unsafe_allow_html=True)
+
+                    
+            else:
+                tab, tab1, tab2, = st.tabs(["🏠", "📈 5회차 분석결과", "🌞총 정리"])
+                with tab:
+                    st.write(f"검색하신 작품은 총 회차수가 10회차 미만으로, 5회차까지의 정식연재 승격 확률만 반환합니다!")
+                    st.write(" ")
+                    
+
+                with tab1:
+                    st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
+                    st.subheader("1️⃣ 긍정적인 댓글의 수")
+
+                    st.write("<h4>✔️ 5회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
+                    fig1 = px.bar(
+                                    df_positive_5[df_positive_5["회차"]==5],
+                                    x="작품",
+                                    y="positive",
+                                    color_discrete_sequence=["#00d364", "#F2F3F4", "#F2F3F4"],
+                                    color="작품",
+                                    labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"}
+                                    )
+                    fig1.update_layout({"showlegend":False, 
+                                        "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                        "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                    fig1.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')                        
+                    fig1.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig1, theme="streamlit", use_container_width=True)
+                    
+                    st.success(f"""
+                                5회차에서 집계된 긍정적인 댓글의 수는
+                                - 정식연재 성공작보다 약 {round(positive_num - positive_mean)} 만큼 {contrac_mean}!
+                                - 동일 전개방식의 정식연재 성공작보다 약 {round(positive_num - positive_genre)} 만큼 {contrac_genre}!
+                                """)
+                        
+                    st.write(" ")
+                    
+                    st.write("<h4>✔️ 1~5회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
+                    fig2 = px.line(
+                                    df_positive_5,
+                                    x="회차",
+                                    y="positive",
+                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                    color="작품",
+                                    labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
+                                    markers=True)
+                    fig2.update_xaxes(title_text="")
+                    fig2.update_layout({"showlegend":True, 
+                                            "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                            "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                    fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True) 
+
+                    
+                    max_num = df_positive_5[(df_positive_5["작품"]==title_name)&(df_positive_5["positive"]==df_positive_5["positive"].max())]["회차"].iloc[0]
+                    title_max = df_positive_5[(df_positive_5["회차"]==max_num)&(df_positive_5["작품"]==title_name)]["positive"].iloc[0]
+                    mean_max = df_positive_5[(df_positive_5["회차"]==max_num)&(df_positive_5["작품"]=="정식연재 성공작")]["positive"].iloc[0]
+                    genr_max = df_positive_5[(df_positive_5["회차"]==max_num)&(df_positive_5["작품"]=="동일 전개방식의 정식연재 성공작")]["positive"].iloc[0]
+                    st.write(f"긍정적인 댓글의 수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}개 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 <span style='color:green'>{round(title_max-genr_max)}</span>개 차이납니다!", unsafe_allow_html=True)
+
+                    
+                    st.subheader("2️⃣ 조회수")
+                    st.write("<h4>✔️ 1회차에서의 조회수</h4>", unsafe_allow_html=True)
+                    fig = px.bar(
+                                df_view_5[df_view_5["회차"]==1],
+                                x="작품",
+                                y="view",
+                                color_discrete_sequence=["#00d364", "#F2F3F4", "#F2F3F4"],
+                                color="작품",
+                                labels={"작품": "CASE", "view": "조회 수"}
+                                )
+                    fig.update_layout({"showlegend":False, 
+                                        "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                        "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                    fig.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    fig.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
+                    st.success(f"""
+                                1회차에서 집계된 조회 수는
+                                - 정식연재 성공작보다 약 {round(view_num - view_mean)} 만큼 {contrac_view_mean}!
+                                - 동일 전개방식의 정식연재 성공작보다 약 {round(view_num - view_genre)} 만큼 {contrac_view_genre}!
+                                """)
+                        
+                    st.write(" ")
+                        
+                    st.write("<h4>✔️ 1~5회차에서의 조회수</h4>", unsafe_allow_html=True)
+                    fig2 = px.line(
+                                    df_view_5,
+                                    x="회차",
+                                    y="view",
+                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                    color="작품",
+                                    labels={"작품": "CASE", "view": "조회 수"},
+                                    markers=True)
+                    fig2.update_xaxes(title_text="회차")
+                    fig2.update_layout({"showlegend":True, 
+                                        "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                        "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                    fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
+                    
+                    df_view_5
+                    
+                    max_num = df_view_5[(df_view_5["작품"]==title_name)&(df_view_5["view"]==df_view_5["view"].max())]["회차"].iloc[0]
+                    title_max = df_view_5[(df_view_5["회차"]==max_num)&(df_view_5["작품"]==title_name)]["view"].iloc[0]
+                    mean_max = df_view_5[(df_view_5["회차"]==max_num)&(df_view_5["작품"]=="정식연재 성공작")]["view"].iloc[0]
+                    genr_max = df_view_5[(df_view_5["회차"]==max_num)&(df_view_5["작품"]=="동일 전개방식의 정식연재 성공작")]["view"].iloc[0]
+                    st.write(f"조회수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}회 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}회 차이납니다!", unsafe_allow_html=True)
+                    
+                    
+                    st.subheader("3️⃣ 총 별점 수")
+                    st.text('총 별점 수: 별점 * 별점 투표자')
+                    st.write("<h4>✔️ 5회차에서의 투표받은 총 별점 수</h4>", unsafe_allow_html=True)
+                    fig = px.bar(
+                                df_rating_people_5[df_rating_people_5["회차"]==5],
+                                x="작품",
+                                y="rating_people",
+                                # title="정식연재 작품과의 5회차에서의 긍정적인 댓글의 수 비교",
+                                color_discrete_sequence=["#00d364", "#F2F3F4", "#F2F3F4"],
+                                color="작품",
+                                labels={"작품": "CASE", "rating_people": "투표받은 총 별점 수"}
+                                )
+                    fig.update_layout({"showlegend":False, 
+                                    "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                    "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                    fig.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    fig.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+                    
+                    st.success(f"""
+                                5회차에서 총 별점 수는
+                                - 정식연재 성공작보다 약 {round(rating_people_num - rating_people_mean)} 만큼 {contrac_rating_people_mean}!
+                                - 동일 전개방식의 정식연재 성공작보다 약 {round(rating_people_num - rating_people_genre)} 만큼 {contrac_rating_people_genre}!
+                                """)
+                    
+                    st.write(" ")
+                    
+                    st.write("<h4>✔️ 1~5회차에서의 투표받은 총 별점 수</h4>", unsafe_allow_html=True)
+                    fig2 = px.line(
+                                df_rating_people_5,
+                                x="회차",
+                                y="rating_people",
+                                color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                color="작품",
+                                labels={"작품": "CASE", "rating_people": "투표받은 총 별점 수"},
+                                markers=True)
+                    fig2.update_xaxes(title_text="회차")
+                    fig2.update_layout({"showlegend":True, 
+                                        "plot_bgcolor":"rgba(0, 0, 0, 0)", 
+                                        "paper_bgcolor":"rgba(0, 0, 0, 0)"})
+                    fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
+                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
+                    
+                    max_num = df_rating_people_5[(df_rating_people_5["작품"]==title_name)&(df_rating_people_5["rating_people"]==df_rating_people_5["rating_people"].max())]["회차"].iloc[0]
+                    title_max = df_rating_people_5[(df_rating_people_5["회차"]==max_num)&(df_rating_people_5["작품"]==title_name)]["rating_people"].iloc[0]
+                    mean_max = df_rating_people_5[(df_rating_people_5["회차"]==max_num)&(df_rating_people_5["작품"]=="정식연재 성공작")]["rating_people"].iloc[0]
+                    genr_max = df_rating_people_5[(df_rating_people_5["회차"]==max_num)&(df_rating_people_5["작품"]=="동일 전개방식의 정식연재 성공작")]["rating_people"].iloc[0]
+                    st.write(f"총 별점 수는 <span style='color:green'>{max_num}</span>회차에서 가장 높습니다!", unsafe_allow_html=True)
+                    st.write(f"정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max - mean_max)}개 차이납니다!", unsafe_allow_html=True)
+                    st.write(f"동일한 작품전개 방식의 정식연재 성공작과 <span style='color:green'>{max_num}</span>회차에서 {round(title_max-genr_max)}개 차이납니다!", unsafe_allow_html=True)
