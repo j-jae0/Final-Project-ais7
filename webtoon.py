@@ -19,9 +19,7 @@ thumbnail_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/mai
 final_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_5_df.csv"
 final_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_10_df.csv"
 maen_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_5_means_df.csv"
-maen_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_korean_means_df.csv"
-
-mean_10_cols = ['column', '비공감_1', '비공감_2', '비공감_3', '비공감_4', '비공감_5', '비공감_6', '비공감_7', '비공감_8', '비공감_9', '비공감_10', '긍정댓글_1', '긍정댓글_2', '긍정댓글_3', '긍정댓글_4', '긍정댓글_5', '긍정댓글_6', '긍정댓글_7', '긍정댓글_8', '긍정댓글_9', '긍정댓글_10', '총별점수_1', '총별점수_2', '총별점수_3', '총별점수_4', '총별점수_5', '총별점수_6', '총별점수_7', '총별점수_8', '총별점수_9', '총별점수_10']
+maen_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_10_means.csv"
 
 @st.cache
 def info_data():
@@ -173,17 +171,16 @@ if st.session_state.page2:
     df_rating_people_5 = pd.concat([input_rating_people_5, total_rating_people_mean_df_5, genre_rating_people_mean_df_5])
 
     def make_input_df10(col):
-        df = df_analy10[[f"{col}_1", f"{col}_2", f"{col}_3", f"{col}_4", f"{col}_5", f"{col}_6", f"{col}_7", f"{col}_8", f"{col}_9", f"{col}_10"]].T.reset_index()
+        df = df_analy10[].
         df["index"] = df["index"].map(lambda x: int(x.split("_")[-1]))
         df["작품"] = f"{st.session_state.title_name}"
         df.columns = ["회차", f"{col}", "작품"]
         return df
 
     def total_mean_df10(genre, col, case):
-        df = df_mean_10.loc[df_mean_10["column"]==genre, [f"{col}_1", f"{col}_2", f"{col}_3", f"{col}_4", f"{col}_5", f"{col}_6", f"{col}_7", f"{col}_8", f"{col}_9", f"{col}_10"]].T.reset_index()
-        df["index"] = df["index"].map(lambda x: int(x.split("_")[-1]))
+        df = df_mean_10.loc[df_mean_10["type"]==col, ["index", genre]]
         df["작품"] = case
-        df.columns = ["회차", f"{col}", "작품"]
+        df.columns = ["회차", col, "작품"]
         return df
 
     # 10회차  
