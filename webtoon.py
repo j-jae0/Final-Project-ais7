@@ -171,10 +171,12 @@ if st.session_state.page2:
     df_rating_people_5 = pd.concat([input_rating_people_5, total_rating_people_mean_df_5, genre_rating_people_mean_df_5])
 
     def make_input_df10(col):
-        df = df_analy10[].
+        df1 = df_analy10[[f"{col}_1", f"{col}_2", f"{col}_3", f"{col}_4", f"{col}_5"]].T.reset_index()
+        df2 = df_analy10[[f"{col}_6", f"{col}_7", f"{col}_8", f"{col}_9", f"{col}_10"]].T.reset_index()
+        df = pd.concat([df1, df2])
         df["index"] = df["index"].map(lambda x: int(x.split("_")[-1]))
         df["작품"] = f"{st.session_state.title_name}"
-        df.columns = ["회차", f"{col}", "작품"]
+        df.columns = ["회차", col, "작품"]
         return df
 
     def total_mean_df10(genre, col, case):
