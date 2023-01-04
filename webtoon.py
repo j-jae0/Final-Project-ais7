@@ -15,34 +15,38 @@ with open( "style.css" ) as css:
     st.markdown(f'<style>{css.read()}</style>' , unsafe_allow_html= True)
     
 # 데이터 로드
-url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/%E1%84%8B%E1%85%B0%E1%86%B8%E1%84%90%E1%85%AE%E1%86%AB_%E1%84%89%E1%85%A5%E1%86%B7%E1%84%82%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AF_%E1%84%85%E1%85%B5%E1%86%BC%E1%84%8F%E1%85%B3.csv"
-# id_url = f"https://github.com/j-jae0/Final-Project-ais7/edit/main/data/id_{id_num}.csv"
+thumbnail_url = "https://github.com/j-jae0/Final-Project-ais7/edit/main/data/item_thumbnail.csv"
+final_turn_5_url = "https://github.com/j-jae0/Final-Project-ais7/edit/main/data/final_turn_5_df.csv"
+final_turn_10_url = "https://github.com/j-jae0/Final-Project-ais7/blob/main/data/final_turn_10_df.csv"
+maen_turn_5_url = "https://github.com/j-jae0/Final-Project-ais7/edit/main/data/turn_5_means_df.csv"
+maen_turn_10_url = "https://github.com/j-jae0/Final-Project-ais7/blob/main/data/turn_10_means_df.csv"
+
 @st.cache
 def info_data():
-    df = pd.read_csv("data/item_thumbnail.csv").drop_duplicates()
+    df = pd.read_csv(thumbnail_url).drop_duplicates()
     df["title_new"] = df["title"].map(lambda x: x.replace(" ", ""))
     return df
 
 @st.cache
 def load_data():
-    df = pd.read_csv('data/final_turn_5_df.csv') # 나중에 url 형태로 바꿔줘야 함
+    df = pd.read_csv(final_turn_5_url)
     df = df.fillna(0) 
     return df 
 
 @st.cache
 def turn_10_data():
-    df = pd.read_csv('data/final_turn_10_df.csv') # 나중에 url 형태로 바꿔줘야 함
+    df = pd.read_csv(final_turn_10_url) # 나중에 url 형태로 바꿔줘야 함
     df = df.fillna(0) 
     return df 
 
 @st.cache
 def mean_5_data():
-    df = pd.read_csv('data/turn_5_means_df.csv') # 나중에 url 형태로 바꿔줘야 함
+    df = pd.read_csv(maen_turn_5_url)
     return df 
 
 @st.cache
 def mean_10_data():
-    df = pd.read_csv('data/turn_10_means_df.csv') # 나중에 url 형태로 바꿔줘야 함
+    df = pd.read_csv(maen_turn_10_url) # 나중에 url 형태로 바꿔줘야 함
     return df 
 
 df_link = info_data()
@@ -50,7 +54,6 @@ df_mean_5 = mean_5_data()
 df_mean_10 = mean_10_data()
 df = load_data()
 df10 = turn_10_data()
-
 
 if "visibility" not in st.session_state:
     st.session_state.visibility = "visible"
