@@ -21,6 +21,8 @@ final_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7
 maen_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_5_means_df.csv"
 maen_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_korean_means_df.csv"
 
+mean_10_cols = ['column', '비공감_1', '비공감_2', '비공감_3', '비공감_4', '비공감_5', '비공감_6', '비공감_7', '비공감_8', '비공감_9', '비공감_10', '긍정댓글_1', '긍정댓글_2', '긍정댓글_3', '긍정댓글_4', '긍정댓글_5', '긍정댓글_6', '긍정댓글_7', '긍정댓글_8', '긍정댓글_9', '긍정댓글_10', '총별점수_1', '총별점수_2', '총별점수_3', '총별점수_4', '총별점수_5', '총별점수_6', '총별점수_7', '총별점수_8', '총별점수_9', '총별점수_10']
+
 @st.cache
 def info_data():
     df = pd.read_csv(thumbnail_url).drop_duplicates()
@@ -46,7 +48,7 @@ def mean_5_data():
 
 @st.cache
 def mean_10_data():
-    df = pd.read_csv(maen_turn_10_url) # 나중에 url 형태로 바꿔줘야 함
+    df = pd.read_csv(maen_turn_10_url, names=mean_10_cols) # 나중에 url 형태로 바꿔줘야 함
     return df 
 
 df_link = info_data()
