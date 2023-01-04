@@ -261,8 +261,8 @@ if st.session_state.page2:
                     contrac_genre = contrac(positive_num, positive_genre)
                     
                     f"""
-                    - 5회차에서 집계된 긍정적인 댓글의 수는 정식연재 성공작보다 **{positive_num - positive_men}**만큼 **{contrac_mean}**!
-                    - 5회차에서 집계된 긍정적인 댓글의 수는 동일 전개방식({st.session_state.genre})의 정식연재 성공작보다 **{positive_num - positive_genre}**만큼 **{contrac_genre}**!
+                    - 5회차에서 집계된 긍정적인 댓글의 수는 정식연재 성공작보다 {positive_num - positive_men}만큼 {contrac_mean}!
+                    - 5회차에서 집계된 긍정적인 댓글의 수는 동일 전개방식({st.session_state.genre})의 정식연재 성공작보다 {positive_num - positive_genre}만큼 {contrac_genre}!
                     """
                     
                     st.write("<h4>✔️ 1~5회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
