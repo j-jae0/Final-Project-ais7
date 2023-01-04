@@ -19,7 +19,7 @@ thumbnail_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/mai
 final_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_5_df.csv"
 final_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_10_df.csv"
 maen_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_5_means_df.csv"
-maen_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_10_means_df.csv"
+maen_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_korean_means_df.csv"
 
 @st.cache
 def info_data():
@@ -186,25 +186,25 @@ if st.session_state.page2:
 
     # 10회차  
     # 정식연재O, 주요지표별 평균값
-    total_positive_mean_df_10 = total_mean_df10("전체", "positive", "정식연재 성공작")
-    total_unreco_sum_mean_df_10 = total_mean_df10("전체", "unreco_sum", "정식연재 성공작")
-    total_rating_people_mean_df_10 = total_mean_df10("전체", "rating_people", "정식연재 성공작")
+    total_positive_mean_df_10 = total_mean_df10("전체", "긍정댓글", "정식연재 성공작")
+    total_unreco_sum_mean_df_10 = total_mean_df10("전체", "비공감", "정식연재 성공작")
+    total_rating_people_mean_df_10 = total_mean_df10("전체", "총별점수", "정식연재 성공작")
 
     # 정식연재O, 동일 작품전개 주요지표별 평균값
-    genre_positive_mean_df_10 = total_mean_df(st.session_state.genre, "positive", "동일 전개방식의 정식연재 성공작")
-    genre_unreco_sum_mean_df_10 = total_mean_df(st.session_state.genre, "unreco_sum", "동일 전개방식의 정식연재 성공작")
-    genre_rating_people_mean_df_10 = total_mean_df(st.session_state.genre, "rating_people", "동일 전개방식의 정식연재 성공작")
+    genre_positive_mean_df_10 = total_mean_df10(st.session_state.genre, "긍정댓글", "동일 전개방식의 정식연재 성공작")
+    genre_unreco_sum_mean_df_10 = total_mean_df10(st.session_state.genre, "비공감", "동일 전개방식의 정식연재 성공작")
+    genre_rating_people_mean_df_10 = total_mean_df10(st.session_state.genre, "총별점수", "동일 전개방식의 정식연재 성공작")
 
     # 10회차 기준 주요 피처에 대한 라인그래프용 df 생성
-    input_unreco_sum_10 = make_input_df10("unreco_sum")
-    input_positive_10 = make_input_df10("positive")
-    input_rating_people_10 = make_input_df10("rating_people")
+    input_unreco_sum_10 = make_input_df10("비공감")
+    input_positive_10 = make_input_df10("긍정댓글")
+    input_rating_people_10 = make_input_df10("총별점수")
 
     # 전체 케이스 묶은 df 만들기
     df_unreco_sum_10 = pd.concat([input_unreco_sum_10, total_unreco_sum_mean_df_10,  genre_unreco_sum_mean_df_10])
     df_positive_10 = pd.concat([input_positive_10, total_positive_mean_df_10, genre_positive_mean_df_10])
     df_rating_people_10 = pd.concat([input_rating_people_10, total_rating_people_mean_df_10, genre_rating_people_mean_df_10])
-    df_unreco_sum_10
+    
     # 다음 과정으로 넘어가기
     if st.session_state.page1 and checkbox_statusses.count(True) == 1:
         placeholder2 = st.empty()
