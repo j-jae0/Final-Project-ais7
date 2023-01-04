@@ -203,13 +203,13 @@ if st.session_state.page2:
     contrac_rating_people_genre = contrac(rating_people_num, rating_people_genre)      
 
     if st.session_state.per_10 != 0:
-        def make_input_df10(col):
-            df1 = df_analy10[[f"{col}_1", f"{col}_2", f"{col}_3", f"{col}_4", f"{col}_5"]].T.reset_index()
-            df2 = df_analy10[[f"{col}_6", f"{col}_7", f"{col}_8", f"{col}_9", f"{col}_10"]].T.reset_index()
+        def make_input_df10(col1, col2):
+            df1 = df_analy10[[f"{col1}_1", f"{col1}_2", f"{col1}_3", f"{col1}_4", f"{col1}_5"]].T.reset_index()
+            df2 = df_analy10[[f"{col1}_6", f"{col1}_7", f"{col1}_8", f"{col1}_9", f"{col1}_10"]].T.reset_index()
             df = pd.concat([df1, df2])
             df["index"] = df["index"].map(lambda x: int(x.split("_")[-1]))
             df["작품"] = f"{st.session_state.title_name}"
-            df.columns = ["회차", col, "작품"]
+            df.columns = ["회차", col2, "작품"]
             return df
 
         def total_mean_df10(genre, col, case):
@@ -230,15 +230,39 @@ if st.session_state.page2:
         genre_rating_people_mean_df_10 = total_mean_df10(st.session_state.genre, "총별점수", "동일 전개방식의 정식연재 성공작")
 
         # 10회차 기준 주요 피처에 대한 라인그래프용 df 생성
-        input_unreco_sum_10 = make_input_df10("unreco_sum")
-        input_positive_10 = make_input_df10("positive")
-        input_rating_people_10 = make_input_df10("rating_people")
+        input_unreco_sum_10 = make_input_df10("unreco_sum", "비공감")
+        input_positive_10 = make_input_df10("positive", "긍정댓글")
+        input_rating_people_10 = make_input_df10("rating_people", "총별점수")
 
         # 전체 케이스 묶은 df 만들기
         df_unreco_sum_10 = pd.concat([input_unreco_sum_10, total_unreco_sum_mean_df_10,  genre_unreco_sum_mean_df_10])
         df_positive_10 = pd.concat([input_positive_10, total_positive_mean_df_10, genre_positive_mean_df_10])
         df_rating_people_10 = pd.concat([input_rating_people_10, total_rating_people_mean_df_10, genre_rating_people_mean_df_10])
-    
+
+        
+        ##### 지표 공지용 #######
+        # 10회차 긍정 댓글 
+        positive_num_10 = df_positive_10[(df_positive_10["회차"]==10)&(df_positive_10["작품"]==f"{st.session_state.title_name}")]["긍정댓글"].iloc[0]
+        positive_mean_10 = df_positive_10[(df_positive_10["회차"]==10)&(df_positive_10["작품"]=="정식연재 성공작")]["긍정댓글"].iloc[0]
+        positive_genre_10 = df_positive_10[(df_positive_10["회차"]==10)&(df_positive_10["작품"]=="동일 전개방식의 정식연재 성공작")]["긍정댓글"].iloc[0]        
+        contrac_mean_10 = contrac(positive_num_10, positive_mean_10)
+        contrac_genre_10 = contrac(positive_num_10, positive_genre_10)
+
+        # 5회차에서의 비공감
+        unreco_num = df_unreco_sum_10[(df_unreco_sum_10["회차"]==5)&(df_unreco_sum_10["작품"]==f"{st.session_state.title_name}")]["비공감"].iloc[0]
+        unreco_mean = df_unreco_sum_10[(df_unreco_sum_10["회차"]==5)&(df_unreco_sum_10["작품"]=="정식연재 성공작")]["비공감"].iloc[0]
+        unreco_genre = df_unreco_sum_10[(df_unreco_sum_10["회차"]==5)&(df_unreco_sum_10["작품"]=="동일 전개방식의 정식연재 성공작")]["비공감"].iloc[0]        
+        contrac_unreco_mean = contrac(unreco_num, unreco_mean)
+        contrac_unreco_genre = contrac(unreco_num, unreco_genre)
+        
+        
+        # 10회차에서의 총 별점 수
+        rating_people_num_10 = df_rating_people_10[(df_rating_people_10["회차"]==10)&(df_rating_people_10["작품"]==f"{st.session_state.title_name}")]["총별점수"].iloc[0]
+        rating_people_mean_10 = df_rating_people_10[(df_rating_people_10["회차"]==10)&(df_rating_people_10["작품"]=="정식연재 성공작")]["총별점수"].iloc[0]
+        rating_people_genre_10 = df_rating_people_10[(df_rating_people_10["회차"]==10)&(df_rating_people_10["작품"]=="동일 전개방식의 정식연재 성공작")]["총별점수"].iloc[0]        
+        contrac_rating_people_mean_10 = contrac(rating_people_num_10, rating_people_mean_10)
+        contrac_rating_people_genre_10 = contrac(rating_people_num_10, rating_people_genre_10)  
+            
     # 2페이지
     # 다음 과정으로 넘어가기
     if st.session_state.page1 and checkbox_statusses.count(True) == 1:
@@ -373,8 +397,8 @@ if st.session_state.page2:
                                 """)
                     
                     st.write(" ")
-                            
-                    st.subheader("👉 1~5회차에서의 투표받은 총 별점 수")
+                    
+                    st.write("<h4>✔️ 1~5회차에서의 투표받은 총 별점 수</h4>", unsafe_allow_html=True)
                     fig2 = px.line(
                                 df_rating_people_5,
                                 x="회차",
@@ -396,14 +420,15 @@ if st.session_state.page2:
                 with tab2:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
                     # 10회차 긍정
-                    st.subheader("👉 10회차에서의 긍정적인 댓글의 수")
+                    st.subheader("1️⃣ 긍정적인 댓글의 수")
+                    st.write("<h4>✔️ 10회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
                     fig = px.bar(
                                 df_positive_10[df_positive_10["회차"]==10],
                                 x="작품",
-                                y="positive",
+                                y="긍정댓글",
                                 color_discrete_sequence=["#00d364", "#F2F3F4", "#F2F3F4"],
                                 color="작품",
-                                labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"}
+                                labels={"작품": "CASE", "긍정댓글": "긍정적인 댓글의 수"}
                                 )
                     fig.update_layout({"showlegend":False, 
                                                     "plot_bgcolor":"rgba(0, 0, 0, 0)", 
@@ -411,15 +436,23 @@ if st.session_state.page2:
                     fig.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     fig.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-                                    
-                    st.subheader("👉 1~10회차에서의 긍정적인 댓글의 수")
+                    
+                    st.success(f"""
+                                10회차에서 집계된 긍정적인 댓글의 빈도 수는
+                                - 정식연재 성공작보다 약 {round(positive_num_10 - positive_mean_10)} 만큼 {contrac_mean_10}!
+                                - 동일 전개방식의 정식연재 성공작보다 약 {round(positive_num_10 - positive_genre_10)} 만큼 {contrac_genre_10}!
+                                """)
+                        
+                    st.write(" ")
+                    
+                    st.write("<h4>✔️ 1~10회차에서의 긍정적인 댓글의 빈도 수</h4>", unsafe_allow_html=True)
                     fig2 = px.line(
                                             df_positive_10,
                                             x="회차",
-                                            y="positive",
+                                            y="긍정댓글",
                                             color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
                                             color="작품",
-                                            labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
+                                            labels={"작품": "CASE", "긍정댓글": "긍정적인 댓글의 수"},
                                             markers=True)
                     fig2.update_xaxes(title_text="회차")
                     fig2.update_layout({"showlegend":True, 
@@ -429,18 +462,19 @@ if st.session_state.page2:
                     fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
                         
-                
-                    st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
-                    # 10회차 긍정
-                    st.subheader("👉 2회차에서의 투표받은 총 별점 수")
+                    st.write(" ")
+                    
+                    st.subheader("2️⃣ 총 별점 수")
+                    st.text('총 별점 수: 별점 * 별점 투표자')
+                    st.write("<h4>✔️ 2회차에서의 투표받은 총 별점 수</h4>", unsafe_allow_html=True)
                     fig = px.bar(
                                         df_rating_people_10[df_rating_people_10["회차"]==2],
                                         x="작품",
-                                        y="rating_people",
+                                        y="총별점수",
                                         # title="정식연재 작품과의 5회차에서의 투표받은 총 별점 수 비교",
                                         color_discrete_sequence=["#00d364", "#F2F3F4", "#F2F3F4"],
                                         color="작품",
-                                        labels={"작품": "CASE", "rating_people": "투표받은 총 별점 수"}
+                                        labels={"작품": "CASE", "총별점수": "투표받은 총 별점 수"}
                                         )
                     fig.update_layout({"showlegend":False, 
                                                     "plot_bgcolor":"rgba(0, 0, 0, 0)", 
@@ -448,15 +482,21 @@ if st.session_state.page2:
                     fig.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     fig.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-                                
-                    st.subheader("👉 1~10회차에서의 투표받은 총 별점 수")
+                    
+                    st.success(f"""
+                                2회차에서 집계된 총 별점 수
+                                - 정식연재 성공작보다 약 {round(rating_people_num_10 - rating_people_mean_10)} 만큼 {contrac_rating_people_mean_10}!
+                                - 동일 전개방식의 정식연재 성공작보다 약 {round(rating_people_num_10 - rating_people_genre_10)} 만큼 {contrac_rating_people_genre_10}!
+                                """)
+                    
+                    st.write("<h4>✔️ 1~10회차에서의 투표받은 총 별점 수</h4>", unsafe_allow_html=True)
                     fig2 = px.line(
                                         df_rating_people_10,
                                             x="회차",
-                                            y="rating_people",
+                                            y="총별점수",
                                             color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
                                             color="작품",
-                                            labels={"작품": "CASE", "rating_people": "투표받은 총 별점 수"},
+                                            labels={"작품": "CASE", "총별점수": "투표받은 총 별점 수"},
                                             markers=True)
                     fig2.update_xaxes(title_text="회차")
                     fig2.update_layout({"showlegend":True, 
@@ -467,16 +507,17 @@ if st.session_state.page2:
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)    
                         
                 
-                    st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
-                    # 10회차 긍정
-                    st.subheader("👉 5회차에서의 댓글의 총 비공감 수")
+                    st.write(" ")
+                    
+                    st.subheader("3️⃣ 댓글의 총 비공감 수")
+                    st.write("<h4>✔️ 5회차에서의 댓글의 총 비공감 수</h4>", unsafe_allow_html=True)
                     fig = px.bar(
                                     df_unreco_sum_10[df_unreco_sum_10["회차"]==5],
                                         x="작품",
-                                        y="unreco_sum",
+                                        y="비공감",
                                         color_discrete_sequence=["#00d364", "#F2F3F4", "#F2F3F4"],
                                         color="작품",
-                                        labels={"작품": "CASE", "unreco_sum": "댓글의 총 비공감 수"}
+                                        labels={"작품": "CASE", "비공감": "댓글의 총 비공감 수"}
                                         )
                     fig.update_layout({"showlegend":False, 
                                                     "plot_bgcolor":"rgba(0, 0, 0, 0)", 
@@ -484,15 +525,23 @@ if st.session_state.page2:
                     fig.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     fig.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+                    
+                    st.success(f"""
+                                5회차에서 집계된 댓글 속 총 비공감 수는
+                                - 정식연재 성공작보다 약 {round(unreco_num - unreco_mean)} 만큼 {contrac_unreco_mean}!
+                                - 동일 전개방식의 정식연재 성공작보다 약 {round(unreco_num - unreco_genre)} 만큼 {contrac_unreco_genre}!
+                                """)
+                        
+                    st.write(" ")
                                     
-                    st.subheader("👉 1~10회차에서의 댓글의 총 비공감 수")
+                    st.write("<h4>✔️ 1~10회차에서의 댓글의 총 비공감 수</h4>", unsafe_allow_html=True)
                     fig2 = px.line(
                                             df_unreco_sum_10,
                                             x="회차",
-                                            y="unreco_sum",
+                                            y="비공감",
                                             color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
                                             color="작품",
-                                            labels={"작품": "CASE", "unreco_sum": "댓글의 총 비공감 수"},
+                                            labels={"작품": "CASE", "비공감": "댓글의 총 비공감 수"},
                                             markers=True)
                     fig2.update_xaxes(title_text="회차")
                     fig2.update_layout({"showlegend":True, 
@@ -500,4 +549,4 @@ if st.session_state.page2:
                                                     "paper_bgcolor":"rgba(0, 0, 0, 0)"})
                     fig2.update_xaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
                     fig2.update_yaxes(linecolor='#515A5A', gridcolor='#F4F6F6')
-                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True)   
+                    st.plotly_chart(fig2, theme="streamlit", use_container_width=True) 
