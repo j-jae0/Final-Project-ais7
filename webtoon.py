@@ -46,7 +46,7 @@ def mean_5_data():
 
 @st.cache
 def mean_10_data():
-    df = pd.read_csv(maen_turn_10_url, names=mean_10_cols) # 나중에 url 형태로 바꿔줘야 함
+    df = pd.read_csv(maen_turn_10_url) # 나중에 url 형태로 바꿔줘야 함
     return df 
 
 df_link = info_data()
