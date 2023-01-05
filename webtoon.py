@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sns
 import plotly.express as px
 import matplotlib.pyplot as plt
+import random
 
 st.set_page_config(
     page_title="웹툰발굴단, 작전명: 띵작을 찾아서",
@@ -20,6 +21,17 @@ final_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/
 final_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_10_df.csv"
 maen_turn_5_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/turn_5_means_df.csv"
 maen_turn_10_url = "https://raw.githubusercontent.com/j-jae0/Final-Project-ais7/main/data/final_turn_10_means.csv"
+
+thought_of_the_day = ['"누구나 자기만의 거울을 들고 살아야 해요. 사람이 자신의 얼굴을 스스로 바라보면서 거짓말을 하진 못하거든요. 늘 자신을 비춰보고 다잡는 마음으로 살아가는 것이 중요해요" - 윤태호 작가님 <미생>, <이끼>, <내부자들>, <인천상륙작전> 등', 
+                    '"자기 욕망이 너무 폭발적이고 커서 세상이 어떻든지 창작을 해야 살 수 있어요. 세상이 좋아지건 나빠지건 작가인 거죠. 그걸 견딜 수 있는 사람, 그 태도까지를 재능으로 봐요. 창작자들의 복지나 이런 건 별개에요. 이해타산적인 지점이 아니라 욕망의 크기를 봐야죠. 욕망이 분명한 사람만 구체화하기 위해 나아갈 수 있어요. 그걸 기꺼이 감수할 사람인가까지가 재능이에요." - 윤태호 작가님 <미생>, <이끼>, <내부자들>, <인천상륙작전> 등',
+                    '"어떤 일을 맹렬하게 연습하다 보면 내 길이 아니란 걸 빨리 알 수 있어요. 그 때 후회없이 다른 길을 가면 되는거에요. 열심히 해봤으니 미련이 없죠. 근데 주변주에서 어슬렁거리는 사람은 미련이 남아 갔다가 돌아오고, 갔다가 돌아와요. 계속 주변인만 되는 거죠. 그게 진짜 인생낭비에요. 일을 하겠다고 마음을 먹었다면 뜨겁게 하세요." - 윤태호 작가님 <미생>, <이끼>, <내부자들>, <인천상륙작전> 등', 
+                    '"기초 없이 이룬 성취는 단계를 오르는 것이 아니라 성취 후 다시 바닥으로 돌아오게 된다." - 윤태호 작가님 <미생>, <이끼>, <내부자들>, <인천상륙작전> 등', 
+                    '"우리가 할 수 있는 노력은 과정이 전부야! 결과는 우리 손 안에 있지 않아!" - 윤태호 작가님 <미생>, <이끼>, <내부자들>, <인천상륙작전> 등', 
+                    '"흔들리는 건 당신의 눈이다. 활시위를 당기는 손이다. 명중할 수 있을까 의심하는 마음이다. 과녁은 늘 그 자리에 있다." "어떤 것이 당신이 계획대로 되지 않는 다고 해서 그것이 불필요한 것은 아니다." - 토마스 A. 에디슨', 
+                    '"개선이란 무언가가 좋지 않다고 느낄 수 있는 사람들에 의해서만 만들어질 수 있다." - 프레드리히 니체 "우리가 할 수 있는 최선을 다할 때, 우리 혹은 타인의 삶에 어떤 기적이 나타나는지 아무도 모른다." - 헬렌 켈러 "미래를 결정짓고 싶다면 과거를 공부하라." - 공자', 
+                    '"춤추는 별을 잉태하려면 반드시 스스로의 내면에 혼돈을 지녀야 한다." - 프레드리히 니체',
+                    '"당신이 인생의 주인공이기 때문이다 . 그사실을 잊지마라 . 지금까지 당신이 만들어온 의식적 그리고 무의식적 선택으로 인해 지금의 당신이 있는것이다" . – 바바라 홀'
+                    ]
 
 @st.cache
 def info_data():
@@ -130,10 +142,11 @@ if st.session_state.page2:
     title_name = st.session_state["title_name"]
     df_analy = df[df["id"]==title_id].copy()
     comment_df_5 = df_analy[["댓글작성자수", "독자", "긍정1", "긍정2", "긍정3", "부정1", "부정2", "부정3"]].copy()
-    
-    st.session_state.per_5 = round(df_analy["5_연재확률"].iloc[0] * 100)
-    st.session_state.per_10 = round(df_analy["10_연재확률"].iloc[0] * 100) 
-    st.session_state.genre = df_analy["genre"].iloc[0]
+    st.session_state.max_view = comment_df_5["독자"].values[0]
+    st.session_state.max_people = comment_df_5["댓글작성자수"].values[0]
+    st.session_state.per_5 = round(df_analy["5_연재확률"].values[0] * 100)
+    st.session_state.per_10 = round(df_analy["10_연재확률"].values[0] * 100) 
+    st.session_state.genre = df_analy["genre"].values[0]
     
     # 없으면 빈값일 거임
     df_analy10 = df10[df10["id"]==title_id].copy()
@@ -548,42 +561,53 @@ if st.session_state.page2:
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True) 
                     
                 with tab3:
-                    st.subheader("1️⃣ 댓글 지표")
-                    st.caption("댓글에 가장 많이 등장한 긍/부정 단어")
-                    col1, col2, pd1 = st.columns([1, 1, 5])
-                    with col1:
-                        st.markdown("##### 😇 긍정 단어")
-                        f"""
-                        - {df_analy["긍정1"].iloc[0]}
-                        - {df_analy["긍정2"].iloc[0]}
-                        - {df_analy["긍정3"].iloc[0]}
-                        """
-                    with col2:
-                        st.markdown("##### 👿 부정 단어")
-                        f"""
-                        - {df_analy["부정1"].iloc[0]}
-                        - {df_analy["부정2"].iloc[0]}
-                        - {df_analy["부정3"].iloc[0]}
-                        """
-                    
-                    # st.write(f"데이터 수집일(2022-12)을 기점으로, <span style='color:green'>{}</span>", unsafe_allow_html=True)
-                    
-                    st.write(" ")
-                    
-                    st.subheader("2️⃣ 웹툰 시장: 작가님께만 드리는 깜짝 정보🎁")
-                    st.caption("'한국콘텐츠진흥원장' - 2022 만화. 웹툰 이용자 실태조사 결과보고서")
-                    """
-                    1. 독자들은 주로 '주중'과 '주말' 모두 '오후 10시 ~ 자정' 사이에 웹툰을 감상합니다. 
-                    2. 독자들은 주로 일주일에 평균 '10'편 정도의 작품을 감상합니다. 
-                    3. 독자들이 웹툰을 선택할 때 주로 "인기순(위)", "가격", "소재 또는 줄거리", "최신작여부", "그림 또는 그림체" 를 고려합니다.
-                    4. 독자들이 가장 선호하는 장르는 "코믹/개그"이며, "액션", "판타지"에 대한 선호도 높습니다.
-                    5. 연령이 낮은 독자일 수록 주간단위로 새로운 회차가 연재될 때 마다 감상하는 것을 선호합니다.
-                    """
+                    st.subheader("1. 댓글에 가장 많이 등장한 긍/부정 단어 Top 3")
+                    with st.expander("👇"):
 
+                        """
+                        ✔️ 저희가 제작한 시스템을 통해 5회차까지의 댓글을 긍정적인 댓글과 부정적인 댓글로 분류하였습니다.
+                        - "긍정 단어로 노출된 것은 좋은 의미로 작성된 것, 부정 단어로 노출된 것은 좀 더 개선되었으면 하는 의미로 작성된 것이라고 유추하시면 됩니다."
+                        """
+                        pd1, col1, pd3, col2, pd2 = st.columns([2, 1, 0.1, 1, 2])
+                        with col1:
+                            st.markdown("##### 😇 긍정 단어")
+                            f"""
+                            - {df_analy["긍정1"].iloc[0]}
+                            - {df_analy["긍정2"].iloc[0]}
+                            - {df_analy["긍정3"].iloc[0]}
+                            """
+                        with col2:
+                            st.markdown("##### 👿 부정 단어")
+                            f"""
+                            - {df_analy["부정1"].iloc[0]}
+                            - {df_analy["부정2"].iloc[0]}
+                            - {df_analy["부정3"].iloc[0]}
+                            """
+                    
+                    st.subheader(f"2. '{title_name}' 작가님께")
+                    with st.expander("👇"):
+                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 ({st.session_state.max_view}) 입니다.")
+                        st.write(f"뿐만아니라 {st.session_state.max_people}명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!")
+                        st.info(random.choice(thought_of_the_day), icon="✍️")
+                        st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - 웹툰 발굴단 일동🙏")
+                        st.write(" ")
+                    
+                    st.subheader("3. 웹툰 시장 관련 정보")
+                    with st.expander("👇"):
+                        st.caption("작가님께 도움이 되길 바라며 아래 내용을 첨부합니다.")
+                        """
+                        1. 독자들은 주로 '주중'과 '주말' 모두 '오후 10시 ~ 자정' 사이에 웹툰을 감상합니다. 
+                        2. 독자들은 주로 일주일에 평균 '10'편 정도의 작품을 감상합니다. 
+                        3. 독자들이 웹툰을 선택할 때 주로 "인기순(위)", "가격", "소재 또는 줄거리", "최신작여부", "그림 또는 그림체" 를 고려합니다.
+                        4. 독자들이 가장 선호하는 장르는 "코믹/개그"이며, "액션", "판타지"에 대한 선호도 높습니다.
+                        5. 연령이 낮은 독자일 수록 주간단위로 새로운 회차가 연재될 때 마다 감상하는 것을 선호합니다.
+                        """
+                        st.write("자세한 내용 보러가기 [한국콘텐츠진흥원장 - 2022 만화, 웹툰 이용자 실태조사 결과보고서](https://welcon.kocca.kr/cmm/fms/CrawlingFileDown.do?atchFileId=FILE_7129fa1c-6444-434a-95a1-c20991a18392&fileSn=1)")
+                    
                     
                     
             else:
-                tab1, tab2, = st.tabs(["📈 5회차 분석결과", "🌞추가 분석"])      
+                tab1, tab2, = st.tabs(["📈 5회차 분석결과", "🌞추가 자료"])      
                 with tab1:
                     st.caption("💡 검색하신 작품은 총 회차수가 10회차 미만으로, 5회차까지의 정식연재 승격 확률만 반환합니다!")
                     st.subheader("1️⃣ 긍정적인 댓글의 수")
@@ -717,20 +741,44 @@ if st.session_state.page2:
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
                 
                 with tab2:
-                    st.subheader("1️⃣ 댓글 지표")
-                    st.caption("댓글에 가장 많이 등장한 긍/부정 단어")
-                    col1, col2, pd1 = st.columns([1, 1, 5])
-                    with col1:
-                        st.markdown("##### 😇 긍정 단어")
-                        f"""
-                        - {df_analy["긍정1"].iloc[0]}
-                        - {df_analy["긍정2"].iloc[0]}
-                        - {df_analy["긍정3"].iloc[0]}
+                    st.subheader("1. 댓글에 가장 많이 등장한 긍/부정 단어 Top 3")
+                    with st.expander("👇"):
                         """
-                    with col2:
-                        st.markdown("##### 👿 부정 단어")
-                        f"""
-                        - {df_analy["부정1"].iloc[0]}
-                        - {df_analy["부정2"].iloc[0]}
-                        - {df_analy["부정3"].iloc[0]}
+                        ✔️ 저희가 제작한 시스템을 통해 5회차까지의 댓글을 긍정적인 댓글과 부정적인 댓글로 분류하였습니다.
+                        - "긍정 단어로 노출된 것은 좋은 의미로 작성된 것, 부정 단어로 노출된 것은 좀 더 개선되었으면 하는 의미로 작성된 것이라고 유추하시면 됩니다."
                         """
+                        pd1, col1, pd3, col2, pd2 = st.columns([2, 1, 0.1, 1, 2])
+                        with col1:
+                            st.markdown("##### 😇 긍정 단어")
+                            f"""
+                            - {df_analy["긍정1"].iloc[0]}
+                            - {df_analy["긍정2"].iloc[0]}
+                            - {df_analy["긍정3"].iloc[0]}
+                            """
+                        with col2:
+                            st.markdown("##### 👿 부정 단어")
+                            f"""
+                            - {df_analy["부정1"].iloc[0]}
+                            - {df_analy["부정2"].iloc[0]}
+                            - {df_analy["부정3"].iloc[0]}
+                            """
+                    
+                    st.subheader(f"2. '{title_name}' 작가님께")
+                    with st.expander("👇"):
+                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 ({st.session_state.max_view}) 입니다.")
+                        st.write(f"뿐만아니라 {st.session_state.max_people}명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!")
+                        st.info(random.choice(thought_of_the_day), icon="✍️")
+                        st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - 웹툰 발굴단 일동🙏")
+                        st.write(" ")
+                    
+                    st.subheader("3. 웹툰 시장 관련 정보")
+                    with st.expander("👇"):
+                        st.caption("작가님께 도움이 되길 바라며 아래 내용을 첨부합니다.")
+                        """
+                        1. 독자들은 주로 '주중'과 '주말' 모두 '오후 10시 ~ 자정' 사이에 웹툰을 감상합니다. 
+                        2. 독자들은 주로 일주일에 평균 '10'편 정도의 작품을 감상합니다. 
+                        3. 독자들이 웹툰을 선택할 때 주로 "인기순(위)", "가격", "소재 또는 줄거리", "최신작여부", "그림 또는 그림체" 를 고려합니다.
+                        4. 독자들이 가장 선호하는 장르는 "코믹/개그"이며, "액션", "판타지"에 대한 선호도 높습니다.
+                        5. 연령이 낮은 독자일 수록 주간단위로 새로운 회차가 연재될 때 마다 감상하는 것을 선호합니다.
+                        """
+                        st.write("자세한 내용 보러가기 [한국콘텐츠진흥원장 - 2022 만화, 웹툰 이용자 실태조사 결과보고서](https://welcon.kocca.kr/cmm/fms/CrawlingFileDown.do?atchFileId=FILE_7129fa1c-6444-434a-95a1-c20991a18392&fileSn=1)")
