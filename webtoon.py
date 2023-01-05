@@ -581,19 +581,15 @@ if st.session_state.page2:
                             - {df_analy["부정2"].iloc[0]}
                             - {df_analy["부정3"].iloc[0]}
                             """
-                            """
                             
-                            """
                     
                     with st.expander("2. 작가님께"):
-                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 ({st.session_state.max_view}) 입니다.")
-                        st.write(f"뿐만아니라 {st.session_state.max_people}명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!")
+                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 <span style='color:green'>{st.session_state.max_view}</span> 입니다.", , unsafe_allow_html=True)
+                        st.write(f"뿐만아니라 <span style='color:green'>{st.session_state.max_people}</span>명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!", unsafe_allow_html=True)
                         st.info(random.choice(thought_of_the_day), icon="✍️")
-                        st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - 웹툰 발굴단 일동🙏")
+                        st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - **웹툰 발굴단 일동**🙏")
                         st.write(" ")
-                        """
-                        
-                        """
+                       
                         
                     with st.expander("3. 웹툰 시장 관련 정보"):
                         st.caption("작가님께 도움이 되길 바라며 아래 내용을 첨부합니다.")
@@ -604,10 +600,8 @@ if st.session_state.page2:
                         4. 독자들이 가장 선호하는 장르는 "코믹/개그"이며, "액션", "판타지"에 대한 선호도 높습니다.
                         5. 연령이 낮은 독자일 수록 주간단위로 새로운 회차가 연재될 때 마다 감상하는 것을 선호합니다.
                         """
-                        st.write("자세한 내용 보러가기 [한국콘텐츠진흥원장 - 2022 만화, 웹툰 이용자 실태조사 결과보고서](https://welcon.kocca.kr/cmm/fms/CrawlingFileDown.do?atchFileId=FILE_7129fa1c-6444-434a-95a1-c20991a18392&fileSn=1)")
-                        """
+                        st.caption("자세한 내용 보러가기 [한국콘텐츠진흥원장 - 2022 만화, 웹툰 이용자 실태조사 결과보고서](https://welcon.kocca.kr/cmm/fms/CrawlingFileDown.do?atchFileId=FILE_7129fa1c-6444-434a-95a1-c20991a18392&fileSn=1)")
                         
-                        """
                     
                     
             else:
@@ -765,21 +759,15 @@ if st.session_state.page2:
                             - {df_analy["부정2"].iloc[0]}
                             - {df_analy["부정3"].iloc[0]}
                             """
-                            """
-                        
-                        
-                            """
+                            
                     
                     with st.expander("2. 작가님께"):
-                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 ({st.session_state.max_view}) 입니다.")
-                        st.write(f"뿐만아니라 {st.session_state.max_people}명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!")
+                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 <span style='color:green'>{st.session_state.max_view}</span> 입니다.", , unsafe_allow_html=True)
+                        st.write(f"뿐만아니라 <span style='color:green'>{st.session_state.max_people}</span>명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!", unsafe_allow_html=True)
                         st.info(random.choice(thought_of_the_day), icon="✍️")
-                        st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - 웹툰 발굴단 일동🙏")
+                        st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - **웹툰 발굴단 일동**🙏")
                         st.write(" ")
-                        """
-                        
-                        
-                        """
+                       
                         
                     with st.expander("3. 웹툰 시장 관련 정보"):
                         st.caption("작가님께 도움이 되길 바라며 아래 내용을 첨부합니다.")
@@ -790,8 +778,5 @@ if st.session_state.page2:
                         4. 독자들이 가장 선호하는 장르는 "코믹/개그"이며, "액션", "판타지"에 대한 선호도 높습니다.
                         5. 연령이 낮은 독자일 수록 주간단위로 새로운 회차가 연재될 때 마다 감상하는 것을 선호합니다.
                         """
-                        st.write("자세한 내용 보러가기 [한국콘텐츠진흥원장 - 2022 만화, 웹툰 이용자 실태조사 결과보고서](https://welcon.kocca.kr/cmm/fms/CrawlingFileDown.do?atchFileId=FILE_7129fa1c-6444-434a-95a1-c20991a18392&fileSn=1)")
-                        """
+                        st.caption("자세한 내용 보러가기 [한국콘텐츠진흥원장 - 2022 만화, 웹툰 이용자 실태조사 결과보고서](https://welcon.kocca.kr/cmm/fms/CrawlingFileDown.do?atchFileId=FILE_7129fa1c-6444-434a-95a1-c20991a18392&fileSn=1)")
                         
-                        
-                        """
