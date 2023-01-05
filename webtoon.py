@@ -271,7 +271,7 @@ if st.session_state.page2:
         placeholder2 = st.empty()
         with st.container():
             st.write(f"<h1 style='text-align: center;'>'{st.session_state.title_name}' 의 정식연재 확률은?</h1>", unsafe_allow_html=True)
-            st.write(f"<h1 style='text-align: center; color:green'>{st.session_state.per_5} %</h1>", unsafe_allow_html=True)
+            st.write(f"<h1 style='text-align: center; color:red'>{st.session_state.per_5} %</h1>", unsafe_allow_html=True)
             if st.session_state.per_10 != 0:
                 tab, tab1, tab2, tab3 = st.tabs(["🏠", "📈 5회차 분석결과", "📈 10회차 분석결과", "🌞 추가 자료"])
                 with tab:
