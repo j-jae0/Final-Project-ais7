@@ -584,7 +584,7 @@ if st.session_state.page2:
                             
                     
                     with st.expander("2. 작가님께"):
-                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 <span style='color:green'>{st.session_state.max_view}</span> 입니다.", , unsafe_allow_html=True)
+                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 <span style='color:green'>{st.session_state.max_view}</span> 입니다.", unsafe_allow_html=True)
                         st.write(f"뿐만아니라 <span style='color:green'>{st.session_state.max_people}</span>명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!", unsafe_allow_html=True)
                         st.info(random.choice(thought_of_the_day), icon="✍️")
                         st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - **웹툰 발굴단 일동**🙏")
@@ -762,7 +762,7 @@ if st.session_state.page2:
                             
                     
                     with st.expander("2. 작가님께"):
-                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 <span style='color:green'>{st.session_state.max_view}</span> 입니다.", , unsafe_allow_html=True)
+                        st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 <span style='color:green'>{st.session_state.max_view}</span> 입니다.", unsafe_allow_html=True)
                         st.write(f"뿐만아니라 <span style='color:green'>{st.session_state.max_people}</span>명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!", unsafe_allow_html=True)
                         st.info(random.choice(thought_of_the_day), icon="✍️")
                         st.write("웹툰 플랫폼에서 작가님의 작품을 뵙는 그 날까지 응원하겠습니다. - **웹툰 발굴단 일동**🙏")
