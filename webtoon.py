@@ -330,7 +330,7 @@ if st.session_state.page2:
                                     df_positive_5,
                                     x="회차",
                                     y="positive",
-                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                     color="작품",
                                     labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
                                     markers=True)
@@ -373,7 +373,7 @@ if st.session_state.page2:
                                     df_view_5,
                                     x="회차",
                                     y="view",
-                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                     color="작품",
                                     labels={"작품": "CASE", "view": "조회 수"},
                                     markers=True)
@@ -417,7 +417,7 @@ if st.session_state.page2:
                                 df_rating_people_5,
                                 x="회차",
                                 y="rating_people",
-                                color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                 color="작품",
                                 labels={"작품": "CASE", "rating_people": "투표받은 총 별점 수"},
                                 markers=True)
@@ -464,7 +464,7 @@ if st.session_state.page2:
                                             df_positive_10,
                                             x="회차",
                                             y="긍정댓글",
-                                            color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                            color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                             color="작품",
                                             labels={"작품": "CASE", "긍정댓글": "긍정적인 댓글의 수"},
                                             markers=True)
@@ -506,7 +506,7 @@ if st.session_state.page2:
                                         df_rating_people_10,
                                             x="회차",
                                             y="총별점수",
-                                            color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                            color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                             color="작품",
                                             labels={"작품": "CASE", "총별점수": "투표받은 총 별점 수"},
                                             markers=True)
@@ -548,7 +548,7 @@ if st.session_state.page2:
                                             df_unreco_sum_10,
                                             x="회차",
                                             y="비공감",
-                                            color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                            color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                             color="작품",
                                             labels={"작품": "CASE", "비공감": "댓글의 총 비공감 수"},
                                             markers=True)
@@ -639,7 +639,7 @@ if st.session_state.page2:
                                     df_positive_5,
                                     x="회차",
                                     y="positive",
-                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                     color="작품",
                                     labels={"작품": "CASE", "positive": "긍정적인 댓글의 수"},
                                     markers=True)
@@ -681,7 +681,7 @@ if st.session_state.page2:
                                     df_view_5,
                                     x="회차",
                                     y="view",
-                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                    color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                     color="작품",
                                     labels={"작품": "CASE", "view": "조회 수"},
                                     markers=True)
@@ -726,7 +726,7 @@ if st.session_state.page2:
                                 df_rating_people_5,
                                 x="회차",
                                 y="rating_people",
-                                color_discrete_sequence=["#00d364", "#D0D3D4", "#D0D3D4"],
+                                color_discrete_sequence=["#00d364", "#D0D3D4", "#B3B6B7"],
                                 color="작품",
                                 labels={"작품": "CASE", "rating_people": "투표받은 총 별점 수"},
                                 markers=True)
