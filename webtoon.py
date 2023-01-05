@@ -271,9 +271,9 @@ if st.session_state.page2:
         placeholder2 = st.empty()
         with st.container():
             st.write(f"<h1 style='text-align: center;'>'{st.session_state.title_name}' 의 정식연재 확률은?</h1>", unsafe_allow_html=True)
-            st.write(f"<h1 style='text-align: center; color:red'>{st.session_state.per_5} %</h1>", unsafe_allow_html=True)
+            st.write(f"<h1 style='text-align: center; color:green'>{st.session_state.per_5} %</h1>", unsafe_allow_html=True)
             if st.session_state.per_10 != 0:
-                tab, tab1, tab2, tab3 = st.tabs(["🏠", "📈 5회차 분석결과", "📈 10회차 분석결과", "🌞 추가 분석"])
+                tab, tab1, tab2, tab3 = st.tabs(["🏠", "📈 5회차 분석결과", "📈 10회차 분석결과", "🌞 추가 자료"])
                 with tab:
                     st.caption("💡 위 탭을 통해 확률예측에 가장 많은 영향을 주었던 지표 Top 3 별 분석결과를 확인할 수 있습니다.")
                     pd1, col1, col2, pd2 = st.columns([2, 1, 1, 2])
