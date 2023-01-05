@@ -561,9 +561,7 @@ if st.session_state.page2:
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True) 
                     
                 with tab3:
-                    # st.subheader("1. 댓글에 가장 많이 등장한 긍/부정 단어 Top 3")
                     with st.expander("1. 댓글에 가장 많이 등장한 긍/부정 단어 Top 3"):
-
                         """
                         ✔️ 저희가 제작한 시스템을 통해 5회차까지의 댓글을 긍정적인 댓글과 부정적인 댓글로 분류하였습니다.
                         - "긍정 단어로 노출된 것은 좋은 의미로 작성된 것, 부정 단어로 노출된 것은 좀 더 개선되었으면 하는 의미로 작성된 것이라고 유추하시면 됩니다."
@@ -587,8 +585,7 @@ if st.session_state.page2:
                             
                             """
                     
-                    # st.subheader(f"2. '{title_name}' 작가님께")
-                    with st.expander(f"2. '{title_name}' 작가님께"):
+                    with st.expander("2. 작가님께"):
                         st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 ({st.session_state.max_view}) 입니다.")
                         st.write(f"뿐만아니라 {st.session_state.max_people}명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!")
                         st.info(random.choice(thought_of_the_day), icon="✍️")
@@ -598,7 +595,6 @@ if st.session_state.page2:
                         
                         """
                         
-                    # st.subheader("3. 웹툰 시장 관련 정보")
                     with st.expander("3. 웹툰 시장 관련 정보"):
                         st.caption("작가님께 도움이 되길 바라며 아래 내용을 첨부합니다.")
                         """
@@ -749,7 +745,6 @@ if st.session_state.page2:
                     st.plotly_chart(fig2, theme="streamlit", use_container_width=True)
                 
                 with tab2:
-                    # st.subheader("1. 댓글에 가장 많이 등장한 긍/부정 단어 Top 3")
                     with st.expander("1. 댓글에 가장 많이 등장한 긍/부정 단어 Top 3"):
                         """
                         ✔️ 저희가 제작한 시스템을 통해 5회차까지의 댓글을 긍정적인 댓글과 부정적인 댓글로 분류하였습니다.
@@ -775,8 +770,7 @@ if st.session_state.page2:
                         
                             """
                     
-                    # st.subheader(f"2. '{title_name}' 작가님께")
-                    with st.expander(f"2. '{title_name}' 작가님께"):
+                    with st.expander("2. 작가님께"):
                         st.write(f"작가님의 작품에 가장 많은 댓글을 남긴 독자는 ({st.session_state.max_view}) 입니다.")
                         st.write(f"뿐만아니라 {st.session_state.max_people}명의 독자들이 작품에 관심을 가지고 있으며 작가님을 기다리고 있습니다!")
                         st.info(random.choice(thought_of_the_day), icon="✍️")
@@ -787,7 +781,6 @@ if st.session_state.page2:
                         
                         """
                         
-                    # st.subheader("3. 웹툰 시장 관련 정보")
                     with st.expander("3. 웹툰 시장 관련 정보"):
                         st.caption("작가님께 도움이 되길 바라며 아래 내용을 첨부합니다.")
                         """
