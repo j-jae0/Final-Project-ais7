@@ -9,7 +9,7 @@
 
 <ol>
 <li>
-수집대상 데이터 <br>
+<b>수집대상 데이터</b><br>
 베스트도전에서 5회 이상 회차가 존재하는 웹툰의 데이터(2022년도 12월 15일 기준 확인되는 모든 장르의 웹툰)
 <ul>
 <li>제목</li>
@@ -26,7 +26,7 @@
 </ul>
 </li>
 <li>
-데이터 수집 with python
+<b>데이터 수집 with python</b>
 <ul>
 <li>requests</li>
 <li>BeautifulSoup4</li>
@@ -34,7 +34,7 @@
 </ul>
 </li>
 <li>
-수집 데이터 전처리 with pandas
+<b>수집 데이터 전처리 with pandas</b>
 <ul>
 <li>후기/에필로그/마지막화 라는 키워드가 부제목에 포함된 웹툰은 정식연재된 웹툰이 아닌 단순[완결작]으로 구분</li>
 <li>정식연재 키워드가 부제목에 포함된 웹툰은 [정식연재작]으로 구분</li>
@@ -42,15 +42,15 @@
 </ul>
 </li>
 <li>
-데이터 시각화 및 분석을 통한 피쳐선택 with seaborn
+<b>데이터 시각화 및 분석을 통한 피쳐선택 with seaborn</b>
 <ul>
 <li>
 5회차 기준: 106개 중 37개 사용
 <table>
 <thead>
 <tr>
-<td>사용한 피쳐</td>
-<td>생성한 파생변수</td>
+<td style="background-color:gray"><b>사용한 피쳐</b></td>
+<td><b>생성한 파생변수</b></td>
 </tr>
 </thead>
 <tbody>
@@ -91,8 +91,8 @@
 <table>
 <thead>
 <tr>
-<td>사용한 피쳐</td>
-<td>생성한 파생변수</td>
+<td><b>사용한 피쳐</b></td>
+<td><b>생성한 파생변수</b></td>
 </tr>
 </thead>
 <tbody>
@@ -126,7 +126,15 @@
 </ul>
 </li>
 <li>
-모델 선정 기준
+<b>사용 모델</b>
+<ul>
+<li>Random Forest</li>
+<li>XGBoost</li>
+<li>LightGbm <- 최종 채택</li>
+</ul>
+</li>
+<li>
+<b>모델 선정 기준</b>
 <ul>
 <li>
 데이터의 특성
@@ -135,9 +143,19 @@
 해석가능여부
 </li>
 </ul>
+</li>
+<li>
+<b>모델 평가 metric</b>
 <ul>
-<li>Random Forest</li>
+<li>
+Recall
+<div>실제로 승격될 작품을 승격으로 예측한 확률로, 승격이 안된다고 예측하는 것이 
+작가와 웹툰 플랫폼 담당자(성공할 만한 작품을 다른 경쟁사에 빼앗기는 것이기 때문)에게 더 부정적인 영향을 줄 수 있음</div>
+</li>
+<li>
+Accuracy
+<div>직관적으로 모델의 성능을 판단하기 위해 사용함</div>
+</li>
 </ul>
 </li>
-<li></li>
 </ol>
